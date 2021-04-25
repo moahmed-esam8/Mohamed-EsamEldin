@@ -6,7 +6,7 @@ In this Repo you will find all taks solutions as follow:
 
     I choosed Yalla Kora application to work on, so you can check [Yala Kora test plan](https://github.com/moahmed-esam8/Mohamed-EsamEldin/blob/main/Yalla%20kora%20Test%20Plan%20and%20Bug%20Report/Yalla%20kora%20Test%20plan.docx).
 
-* `Second Part: Reporting defects for the same mobile application above`
+* `Second Part: Reporting defects for the same mobile application`
 
     You can check [Yala Kora Bug Report](https://github.com/moahmed-esam8/Mohamed-EsamEldin/blob/main/Yalla%20kora%20Test%20Plan%20and%20Bug%20Report/Yalla%20kora%20Bug%20Report.xlsx).
 
