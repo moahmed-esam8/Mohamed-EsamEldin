@@ -1,0 +1,1137 @@
+{
+	"info": {
+		"_postman_id": "9c010819-8213-436b-b8ef-043609963455",
+		"name": "API Playground",
+		"description": "These requests showcase some of the things you can do with the API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Highest Priced Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 products per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every product object have all properties with valid data types and price is sorted from high to low\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    pm.variables.set(\"new_price\", 1000000);\r",
+							"\r",
+							"    for(var product of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(product).to.have.ownProperty('id');\r",
+							"    pm.expect(product.id).to.be.a('number');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('name');\r",
+							"    pm.expect(product.name).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('type');\r",
+							"    pm.expect(product.type).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('price');\r",
+							"    pm.expect(product.price).to.be.a('number');\r",
+							"        var new_price = pm.variables.get(\"new_price\");\r",
+							"        console.log(new_price);\r",
+							"        pm.expect(product.price).to.be.lessThan(new_price);\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('upc');\r",
+							"    pm.expect(product.upc).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('shipping');\r",
+							"    pm.expect(product.shipping).to.be.a('number');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('description');\r",
+							"    pm.expect(product.description).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('manufacturer');\r",
+							"    pm.expect(product.manufacturer).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('model');\r",
+							"    pm.expect(product.model).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('url');\r",
+							"    pm.expect(product.url).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('image');\r",
+							"    pm.expect(product.image).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('createdAt');\r",
+							"    pm.expect(product.createdAt).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('updatedAt');\r",
+							"    pm.expect(product.updatedAt).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('categories');\r",
+							"    pm.expect(product.categories).to.be.a('array');\r",
+							"\r",
+							"        for(var item of product.categories){\r",
+							"\r",
+							"            pm.expect(item).to.have.ownProperty('id');\r",
+							"            pm.expect(item.id).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('name');\r",
+							"            pm.expect(item.name).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(item.createdAt).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(item.updatedAt).to.be.a('string');\r",
+							"\r",
+							"        }\r",
+							"        //console.log(product.price);\r",
+							"        pm.variables.set(\"new_price\", product.price);\r",
+							"    }\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/products?$sort[price]=-1",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "$sort[price]",
+							"value": "-1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product Name and Description Only",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 products per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every product object have all properties with valid data types\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var product of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(product).to.have.ownProperty('name');\r",
+							"    pm.expect(product.name).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('description');\r",
+							"    pm.expect(product.description).to.be.a('string');\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/products?$select[]=name&$select[]=description",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "$select[]",
+							"value": "name"
+						},
+						{
+							"key": "$select[]",
+							"value": "description"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TVs with free shipping and price between $500 and $800",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 products per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every product object have all properties with valid data types and the price is between $500 and $800 and shipping value is 0\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var product of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(product).to.have.ownProperty('id');\r",
+							"    pm.expect(product.id).to.be.a('number');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('name');\r",
+							"    pm.expect(product.name).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('type');\r",
+							"    pm.expect(product.type).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('price');\r",
+							"    pm.expect(product.price).to.be.a('number');\r",
+							"    pm.expect(product.price).to.lessThan(801);\r",
+							"    pm.expect(product.price).to.greaterThan(499);\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('upc');\r",
+							"    pm.expect(product.upc).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('shipping');\r",
+							"    pm.expect(product.shipping).to.be.a('number');\r",
+							"    pm.expect(product.shipping).to.equal(0);\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('description');\r",
+							"    pm.expect(product.description).to.be.a('string');\r",
+							"    \r",
+							"    pm.expect(product).to.have.ownProperty('manufacturer');\r",
+							"    pm.expect(product.manufacturer).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('model');\r",
+							"    pm.expect(product.model).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('url');\r",
+							"    pm.expect(product.url).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('image');\r",
+							"    pm.expect(product.image).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('createdAt');\r",
+							"    pm.expect(product.createdAt).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('updatedAt');\r",
+							"    pm.expect(product.updatedAt).to.be.a('string');\r",
+							"\r",
+							"    pm.expect(product).to.have.ownProperty('categories');\r",
+							"    pm.expect(product.categories).to.be.a('array');\r",
+							"\r",
+							"        for(var item of product.categories){\r",
+							"\r",
+							"            pm.expect(item).to.have.ownProperty('id');\r",
+							"            pm.expect(item.id).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('name');\r",
+							"            pm.expect(item.name).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(item.createdAt).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(item.updatedAt).to.be.a('string');\r",
+							"\r",
+							"        }\r",
+							"\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/products?category.name=TVs&price[$gt]=500&price[$lt]=800&shipping[$eq]=0",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "category.name",
+							"value": "TVs"
+						},
+						{
+							"key": "price[$gt]",
+							"value": "500"
+						},
+						{
+							"key": "price[$lt]",
+							"value": "800"
+						},
+						{
+							"key": "shipping[$eq]",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Category Names Only",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/categories?$select[]=name",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"categories"
+					],
+					"query": [
+						{
+							"key": "$select[]",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories with TV in the name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 categories per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every catergory object have all properties with valid data types and the category name contain TV\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var catergory of jsonData.data){\r",
+							"\r",
+							"        pm.expect(catergory).to.have.ownProperty('id');\r",
+							"        pm.expect(catergory.id).to.be.a('string');\r",
+							"        pm.expect(catergory).to.have.ownProperty('name');\r",
+							"        pm.expect(catergory.name).to.be.a('string');\r",
+							"        pm.expect(catergory.name).to.contain(\"TV\");\r",
+							"        pm.expect(catergory).to.have.ownProperty('createdAt');\r",
+							"        pm.expect(catergory.createdAt).to.be.a('string');\r",
+							"        pm.expect(catergory).to.have.ownProperty('updatedAt');\r",
+							"        pm.expect(catergory.updatedAt).to.be.a('string');\r",
+							"        pm.expect(catergory).to.have.ownProperty('subCategories');\r",
+							"        pm.expect(catergory.subCategories).to.be.a('array');\r",
+							"\r",
+							"         for(var item of catergory.subCategories){\r",
+							"\r",
+							"            pm.expect(item).to.have.ownProperty('id');\r",
+							"            pm.expect(item.id).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('name');\r",
+							"            pm.expect(item.name).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(item.createdAt).to.be.a('string');\r",
+							"            pm.expect(item).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(item.updatedAt).to.be.a('string');\r",
+							"\r",
+							"         }\r",
+							"\r",
+							"    }\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/categories?name[$like]=*TV*",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"categories"
+					],
+					"query": [
+						{
+							"key": "name[$like]",
+							"value": "*TV*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find stores in Minnesota",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 stores per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every store object have all properties with valid data types\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var store of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(store).to.have.ownProperty('id');\r",
+							"    pm.expect(store.id).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('name');\r",
+							"    pm.expect(store.name).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('type');\r",
+							"    pm.expect(store.type).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address');\r",
+							"    pm.expect(store.address).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address2');\r",
+							"    pm.expect(store.address2).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('city');\r",
+							"    pm.expect(store.city).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('state');\r",
+							"    pm.expect(store.state).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('zip');\r",
+							"    pm.expect(store.zip).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('lat');\r",
+							"    pm.expect(store.lat).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('lng');\r",
+							"    pm.expect(store.lng).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('hours');\r",
+							"    pm.expect(store.hours).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('createdAt');\r",
+							"    pm.expect(store.createdAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('updatedAt');\r",
+							"    pm.expect(store.updatedAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('services');\r",
+							"    pm.expect(store.services).to.be.a('array');\r",
+							"\r",
+							"    for(var service of store.services){\r",
+							"\r",
+							"            pm.expect(service).to.have.ownProperty('id');\r",
+							"            pm.expect(service.id).to.be.a('number');\r",
+							"            pm.expect(service).to.have.ownProperty('name');\r",
+							"            pm.expect(service.name).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(service.createdAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(service.updatedAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('storeservices');\r",
+							"            pm.expect(service.storeservices).to.be.a('object');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('createdAt');\r",
+							"                pm.expect(service.storeservices.createdAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('updatedAt');\r",
+							"                pm.expect(service.storeservices.updatedAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('storeId');\r",
+							"                pm.expect(service.storeservices.storeId).to.be.a('number');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('serviceId');\r",
+							"                pm.expect(service.storeservices.serviceId).to.be.a('number');\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/stores?state=MN",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"stores"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "MN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find stores that sell Apple products",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 stores per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(11);\r",
+							"});\r",
+							"\r",
+							"//check that every store object have all properties with valid data types\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var store of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(store).to.have.ownProperty('id');\r",
+							"    pm.expect(store.id).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('name');\r",
+							"    pm.expect(store.name).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('type');\r",
+							"    pm.expect(store.type).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address');\r",
+							"    pm.expect(store.address).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address2');\r",
+							"    pm.expect(store.address2).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('city');\r",
+							"    pm.expect(store.city).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('state');\r",
+							"    pm.expect(store.state).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('zip');\r",
+							"    pm.expect(store.zip).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('lat');\r",
+							"    pm.expect(store.lat).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('lng');\r",
+							"    pm.expect(store.lng).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('hours');\r",
+							"    pm.expect(store.hours).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('createdAt');\r",
+							"    pm.expect(store.createdAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('updatedAt');\r",
+							"    pm.expect(store.updatedAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('services');\r",
+							"    pm.expect(store.services).to.be.a('array');\r",
+							"\r",
+							"    for(var service of store.services){\r",
+							"\r",
+							"            pm.expect(service).to.have.ownProperty('id');\r",
+							"            pm.expect(service.id).to.be.a('number');\r",
+							"            pm.expect(service).to.have.ownProperty('name');\r",
+							"            pm.expect(service.name).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(service.createdAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(service.updatedAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('storeservices');\r",
+							"            pm.expect(service.storeservices).to.be.a('object');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('createdAt');\r",
+							"                pm.expect(service.storeservices.createdAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('updatedAt');\r",
+							"                pm.expect(service.storeservices.updatedAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('storeId');\r",
+							"                pm.expect(service.storeservices.storeId).to.be.a('number');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('serviceId');\r",
+							"                pm.expect(service.storeservices.serviceId).to.be.a('number');\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/stores?service.name=Apple Shop",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"stores"
+					],
+					"query": [
+						{
+							"key": "service.name",
+							"value": "Apple Shop"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Stores Within 10 Miles of Beverly Hills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//check that the data is array\r",
+							"pm.test(\"data is an Array of 10 stores per page\", function () {\r",
+							"    pm.expect(jsonData.data).to.be.a('array');\r",
+							"    pm.expect(jsonData.data.length).to.be.lessThan(10);\r",
+							"});\r",
+							"\r",
+							"//check that every store object have all properties with valid data types\r",
+							"pm.test(\"data contains all headers with valid Datatypes\", function () {\r",
+							"    \r",
+							"    for(var store of jsonData.data){\r",
+							"        \r",
+							"    pm.expect(store).to.have.ownProperty('id');\r",
+							"    pm.expect(store.id).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('name');\r",
+							"    pm.expect(store.name).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('type');\r",
+							"    pm.expect(store.type).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address');\r",
+							"    pm.expect(store.address).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('address2');\r",
+							"    pm.expect(store.address2).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('city');\r",
+							"    pm.expect(store.city).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('state');\r",
+							"    pm.expect(store.state).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('zip');\r",
+							"    pm.expect(store.zip).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('lat');\r",
+							"    pm.expect(store.lat).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('lng');\r",
+							"    pm.expect(store.lng).to.be.a('number');\r",
+							"    pm.expect(store).to.have.ownProperty('hours');\r",
+							"    pm.expect(store.hours).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('createdAt');\r",
+							"    pm.expect(store.createdAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('updatedAt');\r",
+							"    pm.expect(store.updatedAt).to.be.a('string');\r",
+							"    pm.expect(store).to.have.ownProperty('services');\r",
+							"    pm.expect(store.services).to.be.a('array');\r",
+							"\r",
+							"    for(var service of store.services){\r",
+							"\r",
+							"            pm.expect(service).to.have.ownProperty('id');\r",
+							"            pm.expect(service.id).to.be.a('number');\r",
+							"            pm.expect(service).to.have.ownProperty('name');\r",
+							"            pm.expect(service.name).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('createdAt');\r",
+							"            pm.expect(service.createdAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('updatedAt');\r",
+							"            pm.expect(service.updatedAt).to.be.a('string');\r",
+							"            pm.expect(service).to.have.ownProperty('storeservices');\r",
+							"            pm.expect(service.storeservices).to.be.a('object');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('createdAt');\r",
+							"                pm.expect(service.storeservices.createdAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('updatedAt');\r",
+							"                pm.expect(service.storeservices.updatedAt).to.be.a('string');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('storeId');\r",
+							"                pm.expect(service.storeservices.storeId).to.be.a('number');\r",
+							"                pm.expect(service.storeservices).to.have.ownProperty('serviceId');\r",
+							"                pm.expect(service.storeservices.serviceId).to.be.a('number');\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/stores?near=90210&service.name=Windows%20Store",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"stores"
+					],
+					"query": [
+						{
+							"key": "near",
+							"value": "90210"
+						},
+						{
+							"key": "service.name",
+							"value": "Windows%20Store"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var data = pm.response.json();\r",
+							"\r",
+							"//check that data contains all headers with valid Datatype and equal to the request data\r",
+							"pm.test(\"data contains all headers with valid Datatype\", function () {\r",
+							"    \r",
+							"    pm.expect(data).to.have.property('id');\r",
+							"    pm.expect(data.id).to.be.a('number');\r",
+							"    pm.expect(data).to.have.property('name');\r",
+							"    pm.expect(data.name).to.be.a('string');\r",
+							"        var req_name = pm.variables.get(\"req_name\");\r",
+							"        pm.expect(data.name).to.equal(req_name);\r",
+							"    pm.expect(data).to.have.property('type');\r",
+							"    pm.expect(data.type).to.be.a('string');\r",
+							"        var req_type = pm.variables.get(\"req_type\");\r",
+							"        pm.expect(data.type).to.equal(req_type);\r",
+							"    pm.expect(data).to.have.property('upc');\r",
+							"    pm.expect(data.upc).to.be.a('string');\r",
+							"        var req_upc = pm.variables.get(\"req_upc\");\r",
+							"        pm.expect(data.upc).to.equal(req_upc);\r",
+							"    pm.expect(data).to.have.property('price');\r",
+							"    pm.expect(data.price).to.be.a('number');\r",
+							"        var req_price = pm.variables.get(\"req_price\");\r",
+							"        pm.expect(data.price).to.equal(req_price);\r",
+							"    pm.expect(data).to.have.property('description');\r",
+							"    pm.expect(data.description).to.be.a('string');\r",
+							"        var req_description = pm.variables.get(\"req_description\");\r",
+							"        pm.expect(data.description).to.equal(req_description);\r",
+							"    pm.expect(data).to.have.property('model');\r",
+							"    pm.expect(data.model).to.be.a('string');\r",
+							"        var req_model = pm.variables.get(\"req_model\");\r",
+							"        pm.expect(data.model).to.equal(req_model);\r",
+							"    pm.expect(data).to.have.property('updatedAt');\r",
+							"    pm.expect(data.updatedAt).to.be.a('string');\r",
+							"    pm.expect(data).to.have.property('createdAt');\r",
+							"    pm.expect(data.createdAt).to.be.a('string');\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var reqBody = JSON.parse(request.data);\r",
+							"\r",
+							"pm.variables.set(\"req_name\", reqBody.name);\r",
+							"pm.variables.set(\"req_type\", reqBody.type);\r",
+							"pm.variables.set(\"req_upc\", reqBody.upc);\r",
+							"pm.variables.set(\"req_price\", reqBody.price);\r",
+							"pm.variables.set(\"req_description\", reqBody.description);\r",
+							"pm.variables.set(\"req_model\", reqBody.model);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Product\",\n\t\"type\": \"Hard Good\",\n\t\"upc\": \"12345676\",\n\t\"price\": 99.99,\n\t\"description\": \"This is a placeholder request for creating a new product.\",\n\t\"model\": \"NP12345\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3030/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Store",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var reqBody = JSON.parse(request.data);",
+							"",
+							"pm.variables.set(\"req_name\", reqBody.name);",
+							"pm.variables.set(\"req_type\", reqBody.type);",
+							"pm.variables.set(\"req_address\", reqBody.address);",
+							"pm.variables.set(\"req_address2\", reqBody.address2);",
+							"pm.variables.set(\"req_city\", reqBody.city);",
+							"pm.variables.set(\"req_state\", reqBody.state);",
+							"pm.variables.set(\"req_zip\", reqBody.zip);",
+							"pm.variables.set(\"req_lat\", reqBody.lat);",
+							"pm.variables.set(\"req_lng\", reqBody.lng);",
+							"pm.variables.set(\"req_hours\", reqBody.hours);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var data = pm.response.json();\r",
+							"\r",
+							"//check that data contains all headers with valid Datatype and equal to the request data\r",
+							"pm.test(\"data contains all headers with valid Datatype\", function () {\r",
+							"    \r",
+							"    pm.expect(data).to.have.property('id');\r",
+							"    pm.expect(data.id).to.be.a('number');\r",
+							"    pm.expect(data).to.have.property('name');\r",
+							"    pm.expect(data.name).to.be.a('string');\r",
+							"        var req_name = pm.variables.get(\"req_name\");\r",
+							"        pm.expect(data.name).to.equal(req_name);\r",
+							"    pm.expect(data).to.have.property('address');\r",
+							"    pm.expect(data.address).to.be.a('string');\r",
+							"        var req_address = pm.variables.get(\"req_address\");\r",
+							"        pm.expect(data.address).to.equal(req_address);\r",
+							"    pm.expect(data).to.have.property('address2');\r",
+							"    pm.expect(data.address2).to.be.a('string');\r",
+							"        var req_address2 = pm.variables.get(\"req_address2\");\r",
+							"        pm.expect(data.address2).to.equal(req_address2);\r",
+							"    pm.expect(data).to.have.property('city');\r",
+							"    pm.expect(data.city).to.be.a('string');\r",
+							"        var req_city = pm.variables.get(\"req_city\");\r",
+							"        pm.expect(data.city).to.equal(req_city);\r",
+							"    pm.expect(data).to.have.property('state');\r",
+							"    pm.expect(data.state).to.be.a('string');\r",
+							"        var req_state = pm.variables.get(\"req_state\");\r",
+							"        pm.expect(data.state).to.equal(req_state);\r",
+							"    pm.expect(data).to.have.property('zip');\r",
+							"    pm.expect(data.zip).to.be.a('string');\r",
+							"        var req_zip = pm.variables.get(\"req_zip\");\r",
+							"        pm.expect(data.zip).to.equal(req_zip);\r",
+							"    pm.expect(data).to.have.property('lat');\r",
+							"    pm.expect(data.lat).to.be.a('number');\r",
+							"        var req_lat = pm.variables.get(\"req_lat\");\r",
+							"        pm.expect(data.lat).to.equal(req_lat);\r",
+							"    pm.expect(data).to.have.property('lng');\r",
+							"    pm.expect(data.lng).to.be.a('number');\r",
+							"        var req_lng = pm.variables.get(\"req_lng\");\r",
+							"        pm.expect(data.lng).to.equal(req_lng);\r",
+							"    pm.expect(data).to.have.property('hours');\r",
+							"    pm.expect(data.hours).to.be.a('string');\r",
+							"        var req_hours = pm.variables.get(\"req_hours\");\r",
+							"        pm.expect(data.hours).to.equal(req_hours);\r",
+							"    pm.expect(data).to.have.property('updatedAt');\r",
+							"    pm.expect(data.updatedAt).to.be.a('string');\r",
+							"    pm.expect(data).to.have.property('createdAt');\r",
+							"    pm.expect(data.createdAt).to.be.a('string');\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{      \n\t  \"name\": \"New Store\",\n      \"type\": \"BigBox\",\n      \"address\": \"123 Fake St\",\n      \"address2\": \"\",\n      \"city\": \"Springfield\",\n      \"state\": \"MN\",\n      \"zip\": \"55123\",\n      \"lat\": 44.969658,\n      \"lng\": -93.449539,\n      \"hours\": \"Mon: 10-9; Tue: 10-9; Wed: 10-9; Thurs: 10-9; Fri: 10-9; Sat: 10-9; Sun: 10-8\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3030/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Service",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var reqBody = JSON.parse(request.data);",
+							"",
+							"pm.variables.set(\"req_name\", reqBody.name);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var data = pm.response.json();\r",
+							"\r",
+							"//check that data contains all headers with valid Datatype and equal to the request data\r",
+							"pm.test(\"data contains all headers with valid Datatype\", function () {\r",
+							"    pm.expect(data).to.have.property('name');\r",
+							"    pm.expect(data.name).to.be.a('string');\r",
+							"        var req_name = pm.variables.get(\"req_name\");\r",
+							"        pm.expect(data.name).to.equal(req_name);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{      \n\t  \"name\": \"New Service\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3030/services",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Category",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var reqBody = JSON.parse(request.data);",
+							"",
+							"//please update the product id at every request",
+							"",
+							"pm.variables.set(\"req_id\", reqBody.id);",
+							"pm.variables.set(\"req_name\", reqBody.name);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check that the response is success , not empty and a json \r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// set the response to the variable jsonData\r",
+							"var data = pm.response.json();\r",
+							"\r",
+							"//check that data contains all headers with valid Datatype and equal to the request data\r",
+							"pm.test(\"data contains all headers with valid Datatype\", function () {\r",
+							"    pm.expect(data).to.have.property('id');\r",
+							"    pm.expect(data.id).to.be.a('string');\r",
+							"        var req_id = pm.variables.get(\"req_id\");\r",
+							"        pm.expect(data.id).to.equal(req_id);\r",
+							"    pm.expect(data).to.have.property('name');\r",
+							"    pm.expect(data.name).to.be.a('string');\r",
+							"        var req_name = pm.variables.get(\"req_name\");\r",
+							"        pm.expect(data.name).to.equal(req_name);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{      \n\t\"id\": \"pcmcat1253455\",\n\t\"name\": \"New Category\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3030/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

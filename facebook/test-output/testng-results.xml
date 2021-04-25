@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="13123" started-at="2021-04-24T22:40:45 EET" finished-at="2021-04-24T22:40:59 EET">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="13123" started-at="2021-04-24T22:40:45 EET" finished-at="2021-04-24T22:40:59 EET">
+      <class name="Tests.LoginTest">
+        <test-method status="PASS" signature="StartDriver(java.lang.String)[pri:0, instance:Tests.LoginTest@305fd85d]" name="StartDriver" is-config="true" duration-ms="10044" started-at="2021-04-24T22:40:45 EET" finished-at="2021-04-24T22:40:56 EET">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[chrome]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- StartDriver -->
+        <test-method status="PASS" signature="UserLogin(java.lang.String, java.lang.String)[pri:1, instance:Tests.LoginTest@305fd85d]" name="UserLogin" duration-ms="2317" started-at="2021-04-24T22:40:56 EET" data-provider="data" finished-at="2021-04-24T22:40:59 EET">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[ijdlzcqfma_1619232043@tfbnw.net]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Test123456]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- UserLogin -->
+        <test-method status="PASS" signature="TakeScreenShotOnFail(org.testng.ITestResult)[pri:0, instance:Tests.LoginTest@305fd85d]" name="TakeScreenShotOnFail" is-config="true" duration-ms="0" started-at="2021-04-24T22:40:59 EET" finished-at="2021-04-24T22:40:59 EET">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=UserLogin status=SUCCESS method=LoginTest.UserLogin(java.lang.String, java.lang.String)[pri:1, instance:Tests.LoginTest@305fd85d] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TakeScreenShotOnFail -->
+        <test-method status="PASS" signature="StopDriver()[pri:0, instance:Tests.LoginTest@305fd85d]" name="StopDriver" is-config="true" duration-ms="0" started-at="2021-04-24T22:40:59 EET" finished-at="2021-04-24T22:40:59 EET">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- StopDriver -->
+      </class> <!-- Tests.LoginTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
